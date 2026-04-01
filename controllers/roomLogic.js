@@ -46,7 +46,9 @@ export const Login = async (req, res) => {
     if (!Room) {
       return res.status(400).json({ success: false, message: 'error in finding roomLogic' });
     }
-
+    console.log('Room', Room);
+    console.log('Stored password:', Room.password);
+    console.log('Input password:', password);
     if (Room.password === password) {
       if (Room.username !== username) {
         Room.members.push(username);

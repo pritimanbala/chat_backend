@@ -9,8 +9,12 @@ export default function iniSocket(io) {
     });
 
     socket.on('send_message', (data) => {
-      const { room_code } = data;
-      io.to(room_code).emit('received message');
+      const { roomCode, message } = data;
+      console.log('Message sent to room:', roomCode, message);
+      io.to(roomCode).emit('receive_message', {
+        room_code: roomCode,
+        message: message
+      });
     });
 
     socket.on('disconnect', () => {

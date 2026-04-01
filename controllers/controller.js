@@ -4,8 +4,11 @@ export const sendMessage = async (req, res) => {
   try {
     const { room_code, username, message } = req.body;
     const Room = await roomLogic.findOne({ room_code });
-    Room.messages.push({ username, message });
+    const newMessage = { username, message, timestamp: new Date() };
+    Room.messages.push(newMessage);
     await Room.save();
+    
+    // Don't emit here - let the frontend handle it via the existing socket flow
     return res
       .status(200)
       .json({ success: true, message: 'success in sending the request', data: Room });
